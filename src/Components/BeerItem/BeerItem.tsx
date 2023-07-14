@@ -1,4 +1,4 @@
-import { FC, useRef } from 'react'
+import { FC } from 'react'
 
 import { Link } from 'react-router-dom'
 import { useBeer } from '../../Store/store'
@@ -6,15 +6,13 @@ import { IBeer } from '../../Type/type'
 import s from './BeerItem.module.scss'
 interface IProps {
 	data: IBeer
-	isFavorite?: boolean
 }
 
-export const BeerItem: FC<IProps> = ({ data, isFavorite }) => {
+export const BeerItem: FC<IProps> = ({ data }) => {
 	const { addToFavorite, removeFavorite } = useBeer(state => ({
 		addToFavorite: state.addToFavorite,
 		removeFavorite: state.removeFavorite,
 	}))
-	const ref = useRef<HTMLHeadingElement>(null)
 
 	const handlerAddFavorite: React.MouseEventHandler<HTMLElement> = event => {
 		event.preventDefault()
@@ -22,18 +20,11 @@ export const BeerItem: FC<IProps> = ({ data, isFavorite }) => {
 	}
 	const handlerRemoveFavorite: React.MouseEventHandler<HTMLButtonElement> = event => {
 		event.preventDefault()
-
-		const sectionRef = ref.current
-		if (sectionRef && isFavorite) {
-			sectionRef.classList.toggle(s.anime)
-			setTimeout(() => removeFavorite(data.id), 700)
-		} else {
-			removeFavorite(data.id)
-		}
+		removeFavorite(data.id)
 	}
 	return (
 		<Link className={s.link} to={`/${data.id}`}>
-			<section ref={ref} onContextMenu={handlerAddFavorite} className={s.container}>
+			<section onContextMenu={handlerAddFavorite} className={s.container}>
 				<div>
 					<img className={s.cart_img} src={data.image_url} alt={data.name}></img>
 				</div>

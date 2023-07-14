@@ -5,8 +5,8 @@ import { IBeer } from '../Type/type'
 export const usePagination = (beerList: IBeer[]) => {
 	const [page, setPage] = useState(1)
 	const [data, setData] = useState<IBeer[]>([])
-	const [firstEl, setFirstEl] = useState(() => 0)
-	const [lastEl, setLastEl] = useState(() => 15)
+	const [firstEl, setFirstEl] = useState(() => -5)
+	const [lastEl, setLastEl] = useState(() => 10)
 	const { ref, inView } = useInView({
 		threshold: 0,
 		initialInView: false,
@@ -21,7 +21,8 @@ export const usePagination = (beerList: IBeer[]) => {
 				setLastEl(15)
 			}
 		}
-	}, [inView])
+	}, [inView, beerList])
+
 	useEffect(() => {
 		setData(beerList.slice(firstEl, lastEl))
 	}, [beerList, firstEl])

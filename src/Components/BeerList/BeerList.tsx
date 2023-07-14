@@ -15,7 +15,6 @@ export const BeerList = () => {
 	useEffect(() => {
 		fetchBeerList(page)
 	}, [page])
-
 	if (error) {
 		alert(error)
 	}
@@ -25,11 +24,9 @@ export const BeerList = () => {
 				<Spinner size={400} color={'rgb(25, 169, 169)'} />
 			) : (
 				<div>
-					<div>
-						{data.map(item => (
-							<BeerItem key={item.id} data={item} />
-						))}
-					</div>
+					{data.map(item => (
+						<BeerItem key={item.id} data={item} />
+					))}
 					<div ref={ref}></div>
 				</div>
 			)}

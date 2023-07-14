@@ -18,7 +18,7 @@ export const FavoriteList = () => {
 	return (
 		<Wrapper>
 			{favoriteList.map(item => (
-				<BeerItem isFavorite={true} key={item.id} data={item} />
+				<BeerItem key={item.id} data={item} />
 			))}
 		</Wrapper>
 	)
