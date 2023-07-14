@@ -5,15 +5,23 @@ import { Spinner } from '../Spinners/Spinners'
 import s from './BeerReceipt.module.scss'
 
 export const BeerPage = () => {
-	const { fetchBeerReceipt, beerReceipt, loading } = useBeer(state => ({
+	const { fetchBeerReceipt, beerReceipt, loading, error } = useBeer(state => ({
 		fetchBeerReceipt: state.fetchBeerReceipt,
 		beerReceipt: state.beerReceipt,
 		loading: state.loading,
+		error: state.error,
 	}))
+
 	const { id } = useParams()
 	useEffect(() => {
-		if (id) fetchBeerReceipt(+id)
+		if (id) {
+			fetchBeerReceipt(+id)
+		}
 	}, [])
+
+	if (error) {
+		alert(error)
+	}
 	if (!beerReceipt[0]) {
 		return null
 	}

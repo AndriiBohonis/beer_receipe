@@ -4,7 +4,6 @@ import { usePagination } from '../../Hooc/usePagination'
 import { useBeer } from '../../Store/store'
 import { BeerItem } from '../BeerItem/BeerItem'
 import { Spinner } from '../Spinners/Spinners'
-import s from './BeerList.module.scss'
 export const BeerList = () => {
 	const { loading, error, fetchBeerList, beerList } = useBeer(state => ({
 		loading: state.loading,
@@ -15,18 +14,18 @@ export const BeerList = () => {
 	const { data, ref, page } = usePagination(beerList)
 	useEffect(() => {
 		fetchBeerList(page)
-		if (error) {
-			alert(error)
-		}
 	}, [page])
 
+	if (error) {
+		alert(error)
+	}
 	return (
 		<Wrapper>
 			{loading ? (
 				<Spinner size={400} color={'rgb(25, 169, 169)'} />
 			) : (
 				<div>
-					<div className={s.info}>
+					<div>
 						{data.map(item => (
 							<BeerItem key={item.id} data={item} />
 						))}
