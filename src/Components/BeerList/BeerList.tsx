@@ -1,35 +1,33 @@
 import { useEffect } from 'react'
+import { shallow } from 'zustand/shallow'
 import { Wrapper } from '../../Hoc/Wrapper'
-import { usePagination } from '../../Hooc/usePagination'
+import { usePagination } from '../../Hook/usePagination'
 import { useBeer } from '../../Store/store'
 import { BeerItem } from '../BeerItem/BeerItem'
-import { Spinner } from '../Spinners/Spinners'
 export const BeerList = () => {
-	const { loading, error, fetchBeerList, beerList } = useBeer(state => ({
-		loading: state.loading,
-		error: state.error,
-		fetchBeerList: state.fetchBeerList,
-		beerList: state.beerList,
-	}))
+	const { fetchBeerList, beerList } = useBeer(
+		state => ({
+			fetchBeerList: state.fetchBeerList,
+			beerList: state.beerList,
+		}),
+		shallow
+	)
+
 	const { data, ref, page } = usePagination(beerList)
+
 	useEffect(() => {
 		fetchBeerList(page)
 	}, [page])
-	if (error) {
-		alert(error)
-	}
+
 	return (
 		<Wrapper>
-			{loading ? (
-				<Spinner size={400} color={'rgb(25, 169, 169)'} />
-			) : (
-				<div>
-					{data.map(item => (
-						<BeerItem key={item.id} data={item} />
-					))}
-					<div ref={ref}></div>
-				</div>
-			)}
+			{data.map((item, index) => {
+				if (data.length === index + 1) {
+					return <BeerItem lastElementRef={ref} key={item.id} data={item} />
+				} else {
+					return <BeerItem key={item.id} data={item} />
+				}
+			})}
 		</Wrapper>
 	)
 }

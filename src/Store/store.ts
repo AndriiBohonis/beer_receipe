@@ -26,7 +26,7 @@ export const useBeer = create<BeerReceptStore>((set, get) => ({
 		set({ loading: true })
 		try {
 			const response = await BeerRecept.getBeerReceptList(page)
-			set({ beerList: response.data, error: null })
+			set({ beerList: [...get().beerList, ...response.data], error: null })
 		} catch (error: unknown) {
 			set({
 				error: 'Request error, please try again later',
@@ -40,7 +40,7 @@ export const useBeer = create<BeerReceptStore>((set, get) => ({
 		set({ loading: true })
 		try {
 			const response = await BeerRecept.getCurrentBeerRecept(id)
-			set({ beerReceipt: response.data, error: null })
+			set({ beerReceipt: [...get().beerList, ...response.data], error: null })
 		} catch (error: unknown) {
 			set({
 				error: 'Request error, please try again later',

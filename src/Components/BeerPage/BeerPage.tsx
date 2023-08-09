@@ -1,18 +1,23 @@
 import { useEffect } from 'react'
 import { useParams } from 'react-router-dom'
+import { shallow } from 'zustand/shallow'
 import { useBeer } from '../../Store/store'
 import { Spinner } from '../Spinners/Spinners'
 import s from './BeerReceipt.module.scss'
 
 export const BeerPage = () => {
-	const { fetchBeerReceipt, beerReceipt, loading, error } = useBeer(state => ({
-		fetchBeerReceipt: state.fetchBeerReceipt,
-		beerReceipt: state.beerReceipt,
-		loading: state.loading,
-		error: state.error,
-	}))
+	const { fetchBeerReceipt, beerReceipt, loading, error } = useBeer(
+		state => ({
+			fetchBeerReceipt: state.fetchBeerReceipt,
+			beerReceipt: state.beerReceipt,
+			loading: state.loading,
+			error: state.error,
+		}),
+		shallow
+	)
 
 	const { id } = useParams()
+
 	useEffect(() => {
 		if (id) {
 			fetchBeerReceipt(+id)
