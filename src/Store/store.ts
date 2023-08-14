@@ -36,11 +36,11 @@ export const useBeer = create<BeerReceptStore>((set, get) => ({
 			set({ loading: false })
 		}
 	},
-	fetchBeerReceipt: async id => {
+	fetchBeerReceipt: async (id) => {
 		set({ loading: true })
 		try {
 			const response = await BeerRecept.getCurrentBeerRecept(id)
-			set({ beerReceipt: [...get().beerList, ...response.data], error: null })
+			set({ beerReceipt: [...response.data], error: null })
 		} catch (error: unknown) {
 			set({
 				error: 'Request error, please try again later',
@@ -51,15 +51,15 @@ export const useBeer = create<BeerReceptStore>((set, get) => ({
 		}
 	},
 
-	addToFavorite: beerRecept => {
+	addToFavorite: (beerRecept) => {
 		{
 			const newItem = beerRecept
-			const currentItem = get().favoriteList.find(item => item.id === newItem.id)?.isFavorite
+			const currentItem = get().favoriteList.find((item) => item.id === newItem.id)?.isFavorite
 
 			if (!currentItem) {
 				set({
 					beerList: [
-						...get().beerList.map(item =>
+						...get().beerList.map((item) =>
 							item.id === beerRecept.id ? { ...item, isFavorite: true } : { ...item }
 						),
 					],
@@ -69,23 +69,23 @@ export const useBeer = create<BeerReceptStore>((set, get) => ({
 			} else {
 				set({
 					beerList: [
-						...get().beerList.map(item =>
+						...get().beerList.map((item) =>
 							item.id === beerRecept.id ? { ...item, isFavorite: false } : { ...item }
 						),
 					],
-					favoriteList: [...get().favoriteList.filter(item => item.id !== newItem.id)],
+					favoriteList: [...get().favoriteList.filter((item) => item.id !== newItem.id)],
 				})
 			}
 		}
 	},
-	removeFavorite: id => {
+	removeFavorite: (id) => {
 		set({
 			beerList: [
-				...get().beerList.map(item =>
+				...get().beerList.map((item) =>
 					item.id === id ? { ...item, isFavorite: false } : { ...item }
 				),
 			],
-			favoriteList: [...get().favoriteList.filter(item => item.id !== id)],
+			favoriteList: [...get().favoriteList.filter((item) => item.id !== id)],
 		})
 	},
 }))

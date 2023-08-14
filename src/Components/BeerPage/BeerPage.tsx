@@ -1,20 +1,16 @@
 import { useEffect } from 'react'
 import { useParams } from 'react-router-dom'
-import { shallow } from 'zustand/shallow'
 import { useBeer } from '../../Store/store'
 import { Spinner } from '../Spinners/Spinners'
 import s from './BeerReceipt.module.scss'
 
 export const BeerPage = () => {
-	const { fetchBeerReceipt, beerReceipt, loading, error } = useBeer(
-		state => ({
-			fetchBeerReceipt: state.fetchBeerReceipt,
-			beerReceipt: state.beerReceipt,
-			loading: state.loading,
-			error: state.error,
-		}),
-		shallow
-	)
+	const { fetchBeerReceipt, beerReceipt, loading, error } = useBeer((state) => ({
+		fetchBeerReceipt: state.fetchBeerReceipt,
+		beerReceipt: state.beerReceipt,
+		loading: state.loading,
+		error: state.error,
+	}))
 
 	const { id } = useParams()
 
@@ -22,11 +18,8 @@ export const BeerPage = () => {
 		if (id) {
 			fetchBeerReceipt(+id)
 		}
-	}, [])
+	}, [id])
 
-	if (error) {
-		alert(error)
-	}
 	if (!beerReceipt[0]) {
 		return null
 	}
@@ -62,7 +55,7 @@ export const BeerPage = () => {
 						<div>
 							<h4>Perfectly combined</h4>
 							<ul>
-								{food_pairing.map(item => (
+								{food_pairing.map((item) => (
 									<li className={s.combined_list} key={item}>
 										{item}
 									</li>

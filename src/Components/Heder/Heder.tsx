@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { useBeer } from '../../Store/store'
 import s from './Heder.module.scss'
 export const Heder = () => {
-	const { countFavorite } = useBeer(state => ({
+	const { countFavorite } = useBeer((state) => ({
 		countFavorite: state.favoriteList.length,
 	}))
 	return (
